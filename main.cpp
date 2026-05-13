@@ -3,7 +3,6 @@
 #include <random>
 #include <stdexcept>
 #include <string>
-#include <vector>
 
 // Zadanie 1
 // Szablon tablicy 1D dla int, z losowaniem w konstruktorze.
@@ -15,7 +14,7 @@ private:
 public:
     Tablica() {
         static std::random_device rd;
-        static std::mt19937 gen(rd());
+        thread_local std::mt19937 gen(rd());
         std::uniform_int_distribution<int> dist(1, 100);
 
         for (int i = 0; i < NumberOfEl; ++i) {
@@ -66,7 +65,7 @@ private:
 public:
     Tablica2D() {
         static std::random_device rd;
-        static std::mt19937 gen(rd());
+        thread_local std::mt19937 gen(rd());
         std::uniform_int_distribution<int> dist(1, 100);
 
         for (int r = 0; r < Rows; ++r) {
@@ -111,23 +110,7 @@ public:
     }
 
     void Sortuj() {
-        std::vector<int> flat;
-        flat.reserve(Rows * Cols);
-
-        for (int r = 0; r < Rows; ++r) {
-            for (int c = 0; c < Cols; ++c) {
-                flat.push_back(Tab2D[r][c]);
-            }
-        }
-
-        std::sort(flat.begin(), flat.end());
-
-        int i = 0;
-        for (int r = 0; r < Rows; ++r) {
-            for (int c = 0; c < Cols; ++c) {
-                Tab2D[r][c] = flat[i++];
-            }
-        }
+        std::sort(&Tab2D[0][0], &Tab2D[0][0] + Rows * Cols);
     }
 
     void Wyswietl() const {
@@ -190,11 +173,11 @@ public:
         return Tab[index];
     }
 
-    Typ Maksimum() const {
+    const Typ& Maksimum() const {
         return *std::max_element(std::begin(Tab), std::end(Tab));
     }
 
-    Typ Minimum() const {
+    const Typ& Minimum() const {
         return *std::min_element(std::begin(Tab), std::end(Tab));
     }
 

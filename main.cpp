@@ -9,6 +9,7 @@
 template <int NumberOfEl>
 class Tablica {
 private:
+    static_assert(NumberOfEl > 0, "NumberOfEl musi byc wieksze od 0");
     int Tab[NumberOfEl];
 
 public:
@@ -60,6 +61,7 @@ public:
 template <int Rows, int Cols>
 class Tablica2D {
 private:
+    static_assert(Rows > 0 && Cols > 0, "Rows i Cols musza byc wieksze od 0");
     int Tab2D[Rows][Cols];
 
 public:
@@ -154,6 +156,7 @@ public:
 template <int NumberOfEl, typename Typ>
 class TablicaTypowana {
 private:
+    static_assert(NumberOfEl > 0, "NumberOfEl musi byc wieksze od 0");
     Typ Tab[NumberOfEl]{};
 
 public:
